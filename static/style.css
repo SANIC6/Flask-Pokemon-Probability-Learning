@@ -1,0 +1,311 @@
+:root {
+    /* MLU-Explain / Editorial Palette */
+    --color-bg: #FFFDF9;
+    /* Cream/Peach background */
+    --color-text-main: #333333;
+    --color-text-muted: #666666;
+    --color-accent: #FF8BA7;
+    /* Soft Red/Pink for highlights */
+    --color-accent-secondary: #FFCB05;
+    /* Pokemon Yellow for highlights */
+    --color-sidebar-bg: #F4F1EA;
+    --color-border: #E0DBD3;
+
+    /* Typography */
+    --font-heading: 'Outfit', sans-serif;
+    --font-serif: 'Lora', serif;
+    --font-body: 'Inter', sans-serif;
+
+    /* Spacing */
+    --sidebar-width: 250px;
+    --content-max-width: 750px;
+}
+
+* {
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-body);
+    font-size: 18px;
+    line-height: 1.7;
+    background-color: var(--color-bg);
+    color: var(--color-text-main);
+}
+
+/* Layout */
+.layout-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: var(--color-sidebar-bg);
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    padding: 2rem;
+    border-right: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: #000;
+}
+
+.toc-header {
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    color: var(--color-text-muted);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+#toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+#toc-list a {
+    text-decoration: none;
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+    transition: color 0.2s;
+    display: block;
+}
+
+#toc-list a:hover,
+#toc-list a.active {
+    color: #DC0A2D;
+    /* Pokemon Red */
+    font-weight: 500;
+}
+
+/* Main Article */
+.article-container {
+    flex: 1;
+    padding: 4rem 2rem;
+    max-width: 100%;
+}
+
+.article-header {
+    max-width: var(--content-max-width);
+    margin: 0 auto 4rem auto;
+    text-align: center;
+}
+
+.tag {
+    display: inline-block;
+    background-color: #FFE0E6;
+    color: #D60028;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+}
+
+h1 {
+    font-family: var(--font-heading);
+    font-size: 3.5rem;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    color: #111;
+}
+
+.subtitle {
+    font-family: var(--font-serif);
+    font-size: 1.4rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+    margin-bottom: 2rem;
+}
+
+.byline {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    border-top: 1px solid var(--color-border);
+    padding-top: 1rem;
+    display: inline-block;
+}
+
+/* Lesson Sections */
+.lesson-section {
+    max-width: var(--content-max-width);
+    margin: 0 auto 6rem auto;
+    scroll-margin-top: 4rem;
+    /* For offset when linking */
+}
+
+.lesson-title {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #111;
+    position: relative;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--color-accent-secondary);
+}
+
+.lesson-content p {
+    margin-bottom: 1.5rem;
+}
+
+.lesson-content h3 {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+}
+
+.lesson-content ul {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+}
+
+.lesson-content li {
+    margin-bottom: 0.5rem;
+}
+
+/* Interactive Widgets (Inline) */
+.interactive-widget {
+    background-color: white;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 2rem;
+    margin: 3rem -4rem;
+    /* Break out of column slightly */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Mobile responsive break-out handling */
+@media (max-width: 900px) {
+    .interactive-widget {
+        margin: 2rem 0;
+    }
+}
+
+.widget-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #F0F0F0;
+    padding: 4px 12px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #666;
+    border-bottom-right-radius: 8px;
+}
+
+/* Example Box Style */
+.example-box {
+    background-color: #E8F4F8;
+    /* Light Blue */
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid #28AAFD;
+    margin: 1.5rem 0;
+    font-family: var(--font-body);
+}
+
+/* Code/Formula Style */
+.formula {
+    font-family: 'Courier New', monospace;
+    background: #eee;
+    padding: 1rem;
+    border-radius: 4px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Footer */
+.article-footer {
+    max-width: var(--content-max-width);
+    margin: 4rem auto 0 auto;
+    text-align: center;
+    border-top: 1px solid var(--color-border);
+    padding-top: 2rem;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+}
+
+/* Simulation Components (Adapted from Old CSS) */
+.coin {
+    width: 100px;
+    height: 100px;
+    background-color: #FFCB05;
+    border-radius: 50%;
+    border: 4px solid #d4a000;
+    margin: 1rem auto;
+    position: relative;
+    transform-style: preserve-3d;
+}
+
+.pokemon-card {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    width: 160px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin: 0 auto;
+}
+
+.pokemon-card img {
+    width: 100%;
+}
+
+.pokemon-card p {
+    font-weight: bold;
+    margin: 0.5rem 0;
+}
+
+.action-btn {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 1rem;
+}
+
+.action-btn:hover {
+    background-color: #000;
+}
+
+.simulation-box {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1rem;
+}

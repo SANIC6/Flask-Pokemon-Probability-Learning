@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon Probability Academy | MLU-Style</title>
+
+    <!-- Fonts: Computer Modern / Latin Modern for that "Academic" feel, plus Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,600;1,400&family=Outfit:wght@500;700;900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="layout-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="logo">
+                <span class="logo-icon">🎲</span>
+                <span class="logo-text">PokeProb</span>
+            </div>
+            <div class="toc-header">Table of Contents</div>
+            <ul id="toc-list">
+                <!-- Links injected via JS -->
+            </ul>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="article-container">
+            <header class="article-header">
+                <div class="tag">Interactive Lesson</div>
+                <h1>Rules of Probability</h1>
+                <p class="subtitle">Master the mathematics of uncertainty through the lens of Pokemon battles, catch
+                    rates, and game mechanics.</p>
+                <div class="byline">By Pokemon Probability Academy</div>
+            </header>
+
+            <div id="lessons-container">
+                <!-- Long-form content injected here -->
+            </div>
+
+            <footer class="article-footer">
+                <p>Created for Data Science Learning</p>
+                <p>© 2025 Pokemon Probability Academy</p>
+            </footer>
+        </main>
+    </div>
+
+    <script type="module" src="{{ url_for('static', filename='main.js') }}?v=2"></script>
+</body>
+
+</html>
