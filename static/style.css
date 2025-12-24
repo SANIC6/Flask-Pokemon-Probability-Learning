@@ -308,4 +308,145 @@ h1 {
     align-items: center;
     gap: 1.5rem;
     padding: 1rem;
+    perspective: 1000px;
+    /* Essential for 3D effect */
+}
+
+/* Sprite Grid for Conditional Probability */
+.sprite-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    justify-items: center;
+    align-items: center;
+    margin: 1.5rem auto;
+    padding: 2rem;
+    max-width: 500px;
+    background: #f8f9fa;
+    border: 2px dashed #e0e0e0;
+    border-radius: 12px;
+}
+
+/* 3D Coin Styling */
+.coin-container {
+    width: 150px;
+    height: 150px;
+    position: relative;
+    margin: 2rem auto;
+    transform-style: preserve-3d;
+    cursor: pointer;
+}
+
+.coin {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    transform-style: preserve-3d;
+    transition: transform 1s ease-out;
+}
+
+.coin-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    /* Metallic effect */
+    background: linear-gradient(135deg, #ffd700 0%, #fdb931 50%, #ffd700 100%);
+    border: 4px solid #daa520;
+}
+
+.coin-front {
+    transform: rotateY(0deg);
+}
+
+.coin-back {
+    transform: rotateY(180deg);
+    background: linear-gradient(135deg, #e0e0e0 0%, #c0c0c0 50%, #e0e0e0 100%);
+    /* Silver for tails */
+    border-color: #a9a9a9;
+}
+
+.coin-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: none;
+}
+
+.coin-img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.coin-text {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1rem;
+    color: #b8860b;
+    /* Dark gold */
+    margin-top: 0.2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.coin-back .coin-text {
+    color: #696969;
+    /* Dark gray */
+}
+
+/* Animations */
+@keyframes flipHeads {
+    0% {
+        transform: rotateY(0);
+    }
+
+    100% {
+        transform: rotateY(1800deg);
+    }
+
+    /* 5 full rotations */
+}
+
+@keyframes flipTails {
+    0% {
+        transform: rotateY(0);
+    }
+
+    100% {
+        transform: rotateY(1980deg);
+    }
+
+    /* 5.5 full rotations */
+}
+
+.coin.flipping-heads {
+    animation: flipHeads 2s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+.coin.flipping-tails {
+    animation: flipTails 2s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+/* Shadow underneath */
+.coin-shadow {
+    width: 120px;
+    height: 20px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    margin: -1rem auto 2rem auto;
+    filter: blur(5px);
+    transition: transform 0.5s;
+}
+
+.coin.flipping-heads~.coin-shadow,
+.coin.flipping-tails~.coin-shadow {
+    transform: scale(0.5);
+    opacity: 0.5;
 }
