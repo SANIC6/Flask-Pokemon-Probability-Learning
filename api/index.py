@@ -1,4 +1,5 @@
-from flask import Flask, render_template, jsonify
+import os
+from flask import Flask, render_template, jsonify, send_from_directory
 import mimetypes
 
 # Fix for Windows Registry MIME type issue
@@ -16,11 +17,11 @@ def health():
 
 @app.route('/robots.txt')
 def robots():
-    return app.send_static_file('robots.txt')
+    return send_from_directory(os.path.join(app.root_path, '../static'), 'robots.txt')
 
 @app.route('/sitemap.xml')
 def sitemap():
-    return app.send_static_file('sitemap.xml')
+    return send_from_directory(os.path.join(app.root_path, '../static'), 'sitemap.xml')
 
 if __name__ == '__main__':
     app.run(debug=True)
