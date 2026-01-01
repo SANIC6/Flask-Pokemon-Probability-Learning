@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ lesson.title }} | Pokemon Probability Academy</title>
+    <meta name="description"
+        content="Learn {{ lesson.title }} through interactive Pokemon examples and practice quizzes.">
+
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='pokeball.png') }}">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='animations.css') }}">
+</head>
+
+<body class="lesson-page">
+
+    <!-- Lesson Header -->
+    <header class="lesson-header">
+        <div class="header-content">
+            <button class="back-button" id="back-button" aria-label="Back to dashboard">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                </svg>
+                <span>Dashboard</span>
+            </button>
+            <div class="lesson-info">
+                <div class="lesson-number">Lesson {{ lesson_id }}</div>
+                <h1 class="lesson-title" id="lesson-title">{{ lesson.title }}</h1>
+            </div>
+            <div class="lesson-progress-indicator">
+                <span id="progress-indicator">Lesson {{ lesson_id }} of 10</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="lesson-container">
+
+        <!-- Content Section -->
+        <section class="content-section" id="content-section">
+            <div class="content-wrapper">
+                <div id="lesson-content">
+                    <!-- Lesson content will be inserted here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Widget Section -->
+        <section class="interactive-section" id="interactive-section">
+            <div class="widget-container">
+                <div class="widget-label">Interactive Practice</div>
+                <div id="interactive-widget">
+                    <!-- Interactive widget will be inserted here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Section -->
+        <section class="quiz-section" id="quiz-section" style="display: none;">
+            <div class="quiz-container">
+                <div class="quiz-header">
+                    <h2 class="quiz-title">
+                        <span class="pokeball-icon">⚪</span>
+                        Time to Test Your Knowledge!
+                    </h2>
+                    <p class="quiz-subtitle">Answer all 3 questions correctly to complete this lesson</p>
+                    <div class="quiz-progress-dots" id="quiz-progress-dots">
+                        <!-- Progress dots will be inserted here -->
+                    </div>
+                </div>
+
+                <div class="quiz-content" id="quiz-content">
+                    <!-- Quiz questions will be inserted here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Completion Section -->
+        <section class="completion-section" id="completion-section" style="display: none;">
+            <div class="completion-container">
+                <div class="completion-animation" id="completion-animation">
+                    <!-- Celebration animation will play here -->
+                </div>
+                <div class="completion-sprite" id="completion-sprite">
+                    <!-- Pokemon sprite will be shown here -->
+                </div>
+                <h2 class="completion-title">Lesson Complete!</h2>
+                <p class="completion-message">You've mastered <strong id="completion-topic">{{ lesson.title }}</strong>!
+                </p>
+                <div class="completion-actions">
+                    <button class="btn-primary" id="next-lesson-btn">
+                        Next Lesson →
+                    </button>
+                    <button class="btn-secondary" id="dashboard-btn">
+                        Back to Dashboard
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Pass lesson data to JavaScript -->
+    <script>
+        window.LESSON_ID = {{ lesson_id }};
+    </script>
+    <script type="module" src="{{ url_for('static', filename='lesson-page.js') }}"></script>
+
+</body>
+
+</html>

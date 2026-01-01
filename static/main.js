@@ -46,10 +46,22 @@ async function renderAllLessons() {
     }
 }
 
-// Setup Interactive Components
-async function setupInteractive(type, lessonId) {
-    const container = document.getElementById(`interactive-area-${lessonId}`);
-    if (!container) return;
+// Setup Interactive Components (EXPORTED for lesson pages)
+export async function setupInteractive(type, containerIdOrElement) {
+    // Accept either a container element or an ID string
+    let container;
+    if (typeof containerIdOrElement === 'string') {
+        // Try multiple ID patterns for compatibility
+        container = document.getElementById(containerIdOrElement) ||
+            document.getElementById(`interactive-area-${containerIdOrElement}`);
+    } else {
+        container = containerIdOrElement;
+    }
+
+    if (!container) {
+        console.warn('Container not found for widget');
+        return;
+    }
 
     if (type === 'coin-flip') {
         renderCoinFlip(container);

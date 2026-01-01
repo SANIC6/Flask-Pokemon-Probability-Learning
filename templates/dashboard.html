@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon Probability Academy | Learn Probability for Data Science</title>
+    <meta name="google-site-verification" content="nOW9qqELAJBr8zTnV1IXRZegRPZXVznxmWK3pHHR9aQ" />
+    <meta name="description"
+        content="Master probability for data science through interactive Pokemon lessons. 10 comprehensive modules covering rules of probability, Bayes' theorem, and conditional probability.">
+    <meta name="keywords"
+        content="probability for data science, statistics for students, learn probability, pokemon math, data science fundamentals, bayes theorem tutorial, conditional probability, intro to statistics">
+    <meta name="author" content="Pokemon Probability Academy">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://poke-probability.vercel.app/">
+    <meta property="og:title" content="Pokemon Probability Academy | Interactive Learning Platform">
+    <meta property="og:description"
+        content="Interactive probability lessons for data science students. Master statistics through the lens of Pokemon.">
+    <meta property="og:image" content="{{ url_for('static', filename='pokeball.png') }}">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://poke-probability.vercel.app/">
+    <meta property="twitter:title" content="Pokemon Probability Academy | Interactive Learning Platform">
+    <meta property="twitter:description"
+        content="Interactive probability lessons for data science students. Master statistics through the lens of Pokemon.">
+
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='pokeball.png') }}">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='animations.css') }}">
+</head>
+
+<body class="dashboard-page">
+
+    <!-- Hero Section -->
+    <header class="dashboard-hero">
+        <div class="hero-content">
+            <div class="hero-badge">Interactive Learning Platform</div>
+            <h1 class="hero-title">Pokemon Probability Academy</h1>
+            <p class="hero-subtitle">Master probability and statistics through engaging Pokemon-themed lessons</p>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-number">10</div>
+                    <div class="stat-label">Lessons</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="progress-percent">0%</div>
+                    <div class="stat-label">Complete</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">90</div>
+                    <div class="stat-label">Quiz Questions</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="dashboard-container">
+
+        <!-- Module Card -->
+        <section class="module-card">
+            <div class="module-header">
+                <div class="module-icon">📊</div>
+                <div class="module-info">
+                    <h2 class="module-title">Rules of Probability</h2>
+                    <p class="module-description">Complete all 10 lessons to master probability fundamentals</p>
+                </div>
+            </div>
+            <div class="module-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-bar" style="width: 0%"></div>
+                </div>
+                <div class="progress-text">
+                    <span id="progress-text">0 of 10 lessons completed</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lessons Grid -->
+        <section class="lessons-section">
+            <h3 class="section-title">Your Learning Path</h3>
+            <div class="lessons-grid" id="lessons-grid">
+                <!-- Lesson cards will be dynamically inserted here -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="dashboard-footer">
+        <p>Master probability for data science, one Pokemon at a time</p>
+        <p>© 2025 Pokemon Probability Academy</p>
+    </footer>
+
+    <script type="module" src="{{ url_for('static', filename='dashboard.js') }}"></script>
+
+</body>
+
+</html>

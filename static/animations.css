@@ -1,0 +1,637 @@
+/* ==========================================================================
+   Pokemon Probability Academy - Animations
+   ========================================================================== */
+
+/* Page Transitions */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Bounce Animations */
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+
+    70% {
+        transform: scale(0.9);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Scale Animations */
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+}
+
+/* Shake Animation (for incorrect answers) */
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+        transform: translateX(-5px);
+    }
+
+    20%,
+    40%,
+    60%,
+    80% {
+        transform: translateX(5px);
+    }
+}
+
+/* Coin Flip Animations */
+@keyframes flipHeads {
+    from {
+        transform: rotateY(0);
+    }
+
+    to {
+        transform: rotateY(1800deg);
+    }
+}
+
+@keyframes flipTails {
+    from {
+        transform: rotateY(0);
+    }
+
+    to {
+        transform: rotateY(1980deg);
+    }
+}
+
+/* Spin Animation (loading) */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Pokeball Spin (custom loading) */
+@keyframes pokeballSpin {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+
+    50% {
+        transform: rotate(180deg) scale(1.1);
+    }
+
+    100% {
+        transform: rotate(360deg) scale(1);
+    }
+}
+
+/* Confetti/Celebration Animations */
+@keyframes confettiDrop {
+    0% {
+        opacity: 1;
+        transform: translateY(-100%) rotate(0deg);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(100vh) rotate(720deg);
+    }
+}
+
+.confetti-pokeball {
+    position: absolute;
+    top: -20px;
+    font-size: 1.5rem;
+    animation: confettiDrop 3s linear forwards;
+    pointer-events: none;
+}
+
+/* Progress Fill Animation */
+@keyframes progressFill {
+    from {
+        width: 0%;
+    }
+}
+
+/* Glow Animation */
+@keyframes glow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 5px rgba(220, 10, 45, 0.2);
+    }
+
+    50% {
+        box-shadow: 0 0 20px rgba(220, 10, 45, 0.6);
+    }
+}
+
+/* Wiggle Animation */
+@keyframes wiggle {
+
+    0%,
+    100% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(-3deg);
+    }
+
+    75% {
+        transform: rotate(3deg);
+    }
+}
+
+/* Slide Up Animation */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Slide Down Animation */
+@keyframes slideDown {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+}
+
+/* Card Hover Lift */
+@keyframes cardLift {
+    from {
+        transform: translateY(0);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    to {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+}
+
+/* Success Checkmark Animation */
+@keyframes checkmark {
+    0% {
+        transform: scale(0) rotate(0deg);
+        opacity: 0;
+    }
+
+    50% {
+        transform: scale(1.2) rotate(180deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1) rotate(360deg);
+        opacity: 1;
+    }
+}
+
+/* Error X Animation */
+@keyframes errorX {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    50% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Ripple Effect */
+@keyframes ripple {
+    0% {
+        transform: scale(0);
+        opacity: 0.6;
+    }
+
+    100% {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* Float Animation (subtle hover) */
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Sparkle Animation */
+@keyframes sparkle {
+
+    0%,
+    100% {
+        opacity: 0;
+        transform: scale(0);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Utility Classes for Animations */
+.animate-fade-in {
+    animation: fadeIn 0.5s ease;
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.5s ease;
+}
+
+.animate-bounce-in {
+    animation: bounceIn 0.6s ease;
+}
+
+.animate-scale-in {
+    animation: scaleIn 0.3s ease;
+}
+
+.animate-shake {
+    animation: shake 0.5s ease;
+}
+
+.animate-pulse {
+    animation: pulse 1.5s ease infinite;
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Interactive Widget Specific Animations */
+
+/* Venn Diagram Pulse */
+.venn-circle {
+    transition: fill-opacity 0.3s ease, stroke-width 0.3s ease;
+}
+
+.venn-circle:hover {
+    fill-opacity: 0.5;
+    stroke-width: 3;
+}
+
+/* Sprite Grid Animations */
+.sprite-grid {
+    animation: fadeIn 0.5s ease;
+}
+
+.interactive-sprite {
+    animation: fadeInUp 0.3s ease;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.interactive-sprite:hover {
+    transform: scale(1.1);
+}
+
+.interactive-sprite.caught {
+    animation: bounceOut 0.3s ease forwards;
+}
+
+@keyframes bounceOut {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.2);
+        opacity: 0.7;
+    }
+
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+/* Tree Diagram Path Animations */
+.tree-path {
+    stroke-dasharray: 200;
+    stroke-dashoffset: 200;
+    animation: drawPath 2s ease forwards;
+}
+
+@keyframes drawPath {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+.tree-path:hover {
+    stroke-width: 3;
+    transition: stroke-width 0.2s ease;
+}
+
+/* Calculation Box Highlight */
+.calculation-box {
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.calculation-box:hover {
+    background-color: rgba(220, 10, 45, 0.05);
+    transform: translateY(-2px);
+}
+
+/* Button Press Animation */
+.action-btn:active,
+.answer-button:active,
+.card-button:active {
+    transform: scale(0.95);
+}
+
+/* Progress Bar Fill Animation */
+.progress-fill {
+    animation: progressFill 1s ease-in-out;
+}
+
+/* Completion Celebration */
+.completion-container {
+    animation: scaleIn 0.5s ease;
+}
+
+.celebration-sprite {
+    animation: bounceIn 0.8s ease;
+}
+
+/* Mini Sprite Loading */
+.mini-sprite {
+    animation: fadeIn 0.3s ease;
+    transition: transform 0.2s ease;
+}
+
+.mini-sprite:hover {
+    transform: scale(1.2);
+}
+
+/* Pokeball Completion Icon Animation */
+.completion-icon.complete {
+    animation: bounceIn 0.6s ease, pulse 2s ease infinite 1s;
+}
+
+/* Quiz Question Entrance */
+.question-card {
+    animation: fadeInUp 0.4s ease;
+}
+
+/* Answer Button Feedback */
+.answer-button.correct {
+    animation: pulse 0.5s ease;
+}
+
+.answer-button.incorrect {
+    animation: shake 0.5s ease;
+}
+
+/* Explanation Box Entrance */
+.explanation {
+    animation: slideUp 0.4s ease;
+}
+
+/* Loading States */
+.spinner {
+    animation: spin 1s linear infinite;
+}
+
+.sprite-placeholder {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Page Transition Effects */
+.page-transition-in {
+    animation: fadeIn 0.3s ease;
+}
+
+.page-transition-out {
+    animation: fadeOut 0.3s ease;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+/* Hero Stats Animation */
+.stat-item {
+    animation: fadeInUp 0.6s ease;
+}
+
+.stat-item:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.stat-item:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.stat-item:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+/* Module Card Entrance */
+.module-card {
+    animation: fadeInUp 0.5s ease;
+}
+
+/* Lesson Card Stagger */
+.lesson-card {
+    animation: fadeInUp 0.5s ease forwards;
+    opacity: 0;
+}
+
+/* Interactive Widget Container */
+.widget-container {
+    animation: fadeInUp 0.4s ease;
+}
+
+/* Quiz Section Entrance */
+.quiz-section {
+    animation: fadeInUp 0.5s ease;
+}
+
+/* Success/Error Feedback Icons */
+.feedback-icon {
+    display: inline-block;
+    animation: checkmark 0.5s ease;
+}
+
+.answer-button.incorrect .feedback-icon {
+    animation: errorX 0.5s ease;
+}
+
+/* Hover Effects with Transitions */
+.lesson-card,
+.answer-button,
+.action-btn,
+.back-button {
+    transition: all 0.3s ease;
+}
+
+/* Focus States for Accessibility */
+*:focus-visible {
+    outline: 3px solid var(--pokeball-red);
+    outline-offset: 2px;
+}
+
+button:focus-visible {
+    outline: 3px solid var(--pokeball-red);
+    outline-offset: 2px;
+}
