@@ -6,6 +6,7 @@
 import { lessons } from './lessons.js';
 import { StateManager } from './state-manager.js';
 import { SpriteCache } from './sprite-cache.js';
+import { sounds } from './sound-manager.js';
 
 // Import widget renderers from main.js
 // We'll need to refactor main.js to export these functions
@@ -14,6 +15,7 @@ const lessonId = window.LESSON_ID;
 const lesson = lessons.find(l => l.id === lessonId);
 
 let currentQuestionIndex = 0;
+let wrongAnswersCount = 0;
 let selectedQuizVariant = null;
 let quizQuestions = [];
 
@@ -52,6 +54,12 @@ function setupNavigation() {
     const nextLessonBtn = document.getElementById('next-lesson-btn');
     if (nextLessonBtn) {
         nextLessonBtn.addEventListener('click', () => {
+            // Check if we failed the quiz (isPass is not globally accessible, but we can check button text or state)
+            if (nextLessonBtn.textContent === 'Retry Quiz') {
+                location.reload();
+                return;
+            }
+
             const nextId = lessonId + 1;
             if (nextId <= 10) {
                 window.location.href = `/lesson/${nextId}`;
@@ -195,6 +203,7 @@ function renderQuestion() {
     const answerButtons = quizContent.querySelectorAll('.answer-button');
     answerButtons.forEach(button => {
         button.addEventListener('click', () => handleAnswer(parseInt(button.dataset.index)));
+        button.addEventListener('mouseenter', () => sounds.playHover());
     });
 
     // Update progress dots
@@ -227,6 +236,7 @@ function showFeedback(isCorrect, question, selectedIndex) {
     const buttons = document.querySelectorAll('.answer-button');
 
     if (isCorrect) {
+        sounds.playConfirm();
         // Highlight correct answer in green
         buttons[selectedIndex].classList.add('correct');
         buttons[selectedIndex].innerHTML += '<span class="feedback-icon">✓</span>';
@@ -237,18 +247,10 @@ function showFeedback(isCorrect, question, selectedIndex) {
         // Record that user saw this variant
         StateManager.recordQuizVariant(lessonId, selectedQuizVariant);
 
-        // Wait then proceed
-        setTimeout(() => {
-            currentQuestionIndex++;
-            if (currentQuestionIndex < quizQuestions.length) {
-                renderQuestion();
-            } else {
-                // All questions answered correctly!
-                completeLesson();
-            }
-        }, 2500);
-
     } else {
+        sounds.playDenied();
+        wrongAnswersCount++;
+
         // Highlight incorrect answer in red
         buttons[selectedIndex].classList.add('incorrect');
         buttons[selectedIndex].innerHTML += '<span class="feedback-icon">✗</span>';
@@ -258,16 +260,18 @@ function showFeedback(isCorrect, question, selectedIndex) {
 
         // Show explanation
         showExplanation(question.explanation, false);
-
-        // Mark lesson as incomplete
-        StateManager.markLessonIncomplete(lessonId);
-
-        // Wait then return to dashboard
-        setTimeout(() => {
-            alert('Keep practicing! Return to the dashboard and try again when you\'re ready.');
-            navigateToDashboard();
-        }, 3000);
     }
+
+    // Wait then proceed to next question or completion
+    setTimeout(() => {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < quizQuestions.length) {
+            renderQuestion();
+        } else {
+            // All questions answered
+            completeLesson();
+        }
+    }, 3000);
 }
 
 /**
@@ -295,8 +299,15 @@ function showExplanation(explanation, isCorrect) {
  * Complete the lesson
  */
 async function completeLesson() {
-    // Mark as complete
-    StateManager.markLessonComplete(lessonId);
+    const isPass = wrongAnswersCount < 2;
+
+    if (isPass) {
+        // Mark as complete
+        StateManager.markLessonComplete(lessonId);
+    } else {
+        // Mark as incomplete if failed
+        StateManager.markLessonIncomplete(lessonId);
+    }
 
     // Hide quiz section
     const quizSection = document.getElementById('quiz-section');
@@ -317,16 +328,33 @@ async function completeLesson() {
         topicElem.textContent = lesson.title;
     }
 
-    // Load and show sprite
-    await loadCompletionSprite();
+    // Update message based on performance
+    const completionTitle = document.querySelector('.completion-title');
+    const completionMsg = document.querySelector('.completion-message');
 
-    // Trigger celebration animation
-    celebrateCompletion();
+    if (isPass) {
+        completionTitle.textContent = "Lesson Complete!";
+        completionTitle.style.color = "var(--grass-green)";
+        completionMsg.innerHTML = `Great job! You got <strong>${quizQuestions.length - wrongAnswersCount}</strong> out of <strong>${quizQuestions.length}</strong> correct. You've mastered <strong>${lesson.title}</strong>!`;
+        await loadCompletionSprite();
+        celebrateCompletion();
+    } else {
+        completionTitle.textContent = "Keep Practicing!";
+        completionTitle.style.color = "var(--pokeball-red)";
+        completionMsg.innerHTML = `You got <strong>${quizQuestions.length - wrongAnswersCount}</strong> out of <strong>${quizQuestions.length}</strong> correct. You should practice this topic more before moving on.`;
+        await loadCompletionSprite();
+    }
 
-    // Update next lesson button text
+    // Update next lesson button actions
     const nextBtn = document.getElementById('next-lesson-btn');
-    if (nextBtn && lessonId === 10) {
-        nextBtn.textContent = 'Back to Dashboard';
+    if (nextBtn) {
+        if (!isPass) {
+            nextBtn.textContent = 'Retry Quiz';
+        } else if (lessonId === 10) {
+            nextBtn.textContent = 'Back to Dashboard';
+        } else {
+            nextBtn.textContent = 'Next Lesson →';
+        }
     }
 }
 

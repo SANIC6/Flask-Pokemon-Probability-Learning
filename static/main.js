@@ -428,16 +428,22 @@ async function renderVennDiagram(container) {
         } else {
             // Shuffle
             const shuffled = resultPokemon.sort(() => 0.5 - Math.random()).slice(0, 12);
-            shuffled.forEach(async (name) => {
-                // Fetch sprite individually (hope browser caches or simple fetch)
+            for (const name of shuffled) {
                 const img = document.createElement('img');
                 img.className = 'mini-sprite';
                 img.title = name;
-                img.src = `https://img.pokemondb.net/sprites/scarlet-violet/icon/${name}.png`; // Using icon sprites for lightweight
-                // Fallback to PokeAPI if needed, but direct URL is faster for icons
-                img.onerror = () => { img.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png'; };
+                // Initially show a loading/placeholder
+                img.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png';
                 spriteList.appendChild(img);
-            });
+
+                // Fetch real sprite asynchronously
+                PokeAPI.getPokemon(name).then(pokemon => {
+                    if (pokemon) {
+                        const spriteUrl = PokeAPI.getSprite(pokemon);
+                        if (spriteUrl) img.src = spriteUrl;
+                    }
+                }).catch(err => console.warn(`Failed to fetch sprite for ${name}`, err));
+            }
             const countSpan = document.createElement('span');
             countSpan.style.alignSelf = 'center';
             countSpan.style.fontSize = '0.8rem';

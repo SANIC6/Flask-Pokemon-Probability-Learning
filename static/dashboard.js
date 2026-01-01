@@ -6,6 +6,7 @@
 import { lessons } from './lessons.js';
 import { StateManager } from './state-manager.js';
 import { SpriteCache } from './sprite-cache.js';
+import { sounds } from './sound-manager.js';
 
 console.log('Pokemon Probability Academy Dashboard loaded!');
 
@@ -111,10 +112,14 @@ function createLessonCard(lesson, index) {
     loadSpriteForCard(card, lesson.spriteId);
 
     // Add click handler
-    card.addEventListener('click', () => navigateToLesson(lesson.id));
+    card.addEventListener('click', () => {
+        sounds.playClick();
+        navigateToLesson(lesson.id);
+    });
 
     // Add hover effect
     card.addEventListener('mouseenter', () => {
+        sounds.playHover();
         card.style.transform = 'translateY(-8px)';
     });
 
