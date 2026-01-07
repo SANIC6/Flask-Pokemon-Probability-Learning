@@ -237,79 +237,174 @@ function renderCardDraw(container) {
 
 // Venn Diagram
 async function renderVennDiagram(container) {
-    // Structure
+
+    // --- MINI - DEX DATASET (Curated for best intersections) ---
+    // IDs approx: 1-151 range
+    const MINI_DEX = [
+        // Fire
+        { id: 4, name: 'charmander', types: ['fire'] },
+        { id: 5, name: 'charmeleon', types: ['fire'] },
+        { id: 6, name: 'charizard', types: ['fire', 'flying'] }, // Fire/Flying
+        { id: 37, name: 'vulpix', types: ['fire'] },
+        { id: 38, name: 'ninetales', types: ['fire'] },
+        { id: 58, name: 'growlithe', types: ['fire'] },
+        { id: 59, name: 'arcanine', types: ['fire'] },
+        { id: 77, name: 'ponyta', types: ['fire'] },
+        { id: 78, name: 'rapidash', types: ['fire'] },
+        { id: 126, name: 'magmar', types: ['fire'] },
+        { id: 136, name: 'flareon', types: ['fire'] },
+        { id: 146, name: 'moltres', types: ['fire', 'flying'] }, // Fire/Flying
+
+        // Water
+        { id: 7, name: 'squirtle', types: ['water'] },
+        { id: 8, name: 'wartortle', types: ['water'] },
+        { id: 9, name: 'blastoise', types: ['water'] },
+        { id: 54, name: 'psyduck', types: ['water'] },
+        { id: 60, name: 'poliwag', types: ['water'] },
+        { id: 62, name: 'poliwrath', types: ['water', 'fighting'] }, // Water/Fighting
+        { id: 72, name: 'tentacool', types: ['water', 'poison'] }, // Water/Poison
+        { id: 73, name: 'tentacruel', types: ['water', 'poison'] }, // Water/Poison
+        { id: 79, name: 'slowpoke', types: ['water', 'psychic'] }, // Water/Psychic
+        { id: 80, name: 'slowbro', types: ['water', 'psychic'] }, // Water/Psychic
+        { id: 86, name: 'seel', types: ['water'] },
+        { id: 87, name: 'dewgong', types: ['water', 'ice'] }, // Water/Ice
+        { id: 130, name: 'gyarados', types: ['water', 'flying'] }, // Water/Flying
+        { id: 131, name: 'lapras', types: ['water', 'ice'] }, // Water/Ice
+        { id: 134, name: 'vaporeon', types: ['water'] },
+
+        // Grass
+        { id: 1, name: 'bulbasaur', types: ['grass', 'poison'] }, // Grass/Poison
+        { id: 2, name: 'ivysaur', types: ['grass', 'poison'] }, // Grass/Poison
+        { id: 3, name: 'venusaur', types: ['grass', 'poison'] }, // Grass/Poison
+        { id: 43, name: 'oddish', types: ['grass', 'poison'] }, // Grass/Poison
+        { id: 44, name: 'gloom', types: ['grass', 'poison'] }, // Grass/Poison
+        { id: 45, name: 'vileplume', types: ['grass', 'poison'] }, // Grass/Poison
+        { id: 46, name: 'paras', types: ['bug', 'grass'] }, // Bug/Grass
+        { id: 47, name: 'parasect', types: ['bug', 'grass'] }, // Bug/Grass
+        { id: 69, name: 'bellsprout', types: ['grass', 'poison'] }, // Grass/Poison
+        { id: 102, name: 'exeggcute', types: ['grass', 'psychic'] }, // Grass/Psychic
+        { id: 103, name: 'exeggutor', types: ['grass', 'psychic'] }, // Grass/Psychic
+
+        // Poison
+        { id: 13, name: 'weedle', types: ['bug', 'poison'] }, // Bug/Poison
+        { id: 14, name: 'kakuna', types: ['bug', 'poison'] }, // Bug/Poison
+        { id: 15, name: 'beedrill', types: ['bug', 'poison'] }, // Bug/Poison
+        { id: 23, name: 'ekans', types: ['poison'] },
+        { id: 24, name: 'arbok', types: ['poison'] },
+        { id: 29, name: 'nidoran-f', types: ['poison'] },
+        { id: 32, name: 'nidoran-m', types: ['poison'] },
+        { id: 41, name: 'zubat', types: ['poison', 'flying'] }, // Poison/Flying
+        { id: 42, name: 'golbat', types: ['poison', 'flying'] }, // Poison/Flying
+        { id: 88, name: 'grimer', types: ['poison'] },
+        { id: 89, name: 'muk', types: ['poison'] },
+        { id: 92, name: 'gastly', types: ['ghost', 'poison'] }, // Ghost/Poison
+        { id: 93, name: 'haunter', types: ['ghost', 'poison'] }, // Ghost/Poison
+        { id: 94, name: 'gengar', types: ['ghost', 'poison'] }, // Ghost/Poison
+        { id: 109, name: 'koffing', types: ['poison'] },
+        { id: 110, name: 'weezing', types: ['poison'] },
+
+        // Bug
+        { id: 10, name: 'caterpie', types: ['bug'] },
+        { id: 11, name: 'metapod', types: ['bug'] },
+        { id: 12, name: 'butterfree', types: ['bug', 'flying'] }, // Bug/Flying
+        { id: 48, name: 'venonat', types: ['bug', 'poison'] }, // Bug/Poison
+        { id: 49, name: 'venomoth', types: ['bug', 'poison'] }, // Bug/Poison
+        { id: 123, name: 'scyther', types: ['bug', 'flying'] }, // Bug/Flying
+        { id: 127, name: 'pinsir', types: ['bug'] },
+
+        // Flying
+        { id: 16, name: 'pidgey', types: ['normal', 'flying'] }, // Normal/Flying
+        { id: 17, name: 'pidgeotto', types: ['normal', 'flying'] }, // Normal/Flying
+        { id: 18, name: 'pidgeot', types: ['normal', 'flying'] }, // Normal/Flying
+        { id: 21, name: 'spearow', types: ['normal', 'flying'] }, // Normal/Flying
+        { id: 22, name: 'fearow', types: ['normal', 'flying'] }, // Normal/Flying
+        { id: 83, name: 'farfetchd', types: ['normal', 'flying'] }, // Normal/Flying
+        { id: 84, name: 'doduo', types: ['normal', 'flying'] }, // Normal/Flying
+        { id: 85, name: 'dodrio', types: ['normal', 'flying'] }, // Normal/Flying
+        { id: 142, name: 'aerodactyl', types: ['rock', 'flying'] }, // Rock/Flying
+        { id: 149, name: 'dragonite', types: ['dragon', 'flying'] }, // Dragon/Flying
+    ];
+
+    // Helper: Get unique random subset
+    const getRandomSubset = (arr, count) => {
+        const shuffled = [...arr].sort(() => 0.5 - Math.random());
+        return shuffled.slice(0, count);
+    };
+
+    // New Box Structure
     const wrapper = document.createElement('div');
-    wrapper.className = 'simulation-box';
-    wrapper.style.maxWidth = '600px';
-    wrapper.style.margin = '0 auto';
+    wrapper.className = 'venn-box-container';
 
     wrapper.innerHTML = `
-        <h3>Pokemon Types Intersections</h3>
-        
-        <div class="venn-controls">
-            <div class="control-group">
-                <label>Set A (Left)</label>
-                <select id="type-a-${container.id}" class="type-select">
-                    <option value="fire" selected>Fire</option>
-                    <option value="water">Water</option>
-                    <option value="grass">Grass</option>
-                    <option value="electric">Electric</option>
-                    <option value="psychic">Psychic</option>
-                    <option value="ice">Ice</option>
-                    <option value="dragon">Dragon</option>
-                    <option value="normal">Normal</option>
-                </select>
+        <div class="venn-sample-label">Sample Space (S)</div>
+
+        <div class="venn-controls-section">
+            <div class="venn-controls-top">
+                <div class="venn-select-wrapper">
+                    <label class="venn-select-label">Event A</label>
+                    <select id="type-a-${container.id}" class="venn-select">
+                        <option value="grass" selected>Grass</option>
+                        <option value="fire">Fire</option>
+                        <option value="water">Water</option>
+                        <option value="poison">Poison</option>
+                        <option value="bug">Bug</option>
+                        <option value="flying">Flying</option>
+                    </select>
+                </div>
+                <div class="venn-select-wrapper">
+                    <label class="venn-select-label">Event B</label>
+                    <select id="type-b-${container.id}" class="venn-select">
+                        <option value="poison" selected>Poison</option>
+                        <option value="fire">Fire</option>
+                        <option value="water">Water</option>
+                        <option value="grass">Grass</option>
+                        <option value="bug">Bug</option>
+                        <option value="flying">Flying</option>
+                    </select>
+                </div>
             </div>
-            <div class="control-group">
-                <label>Set B (Right)</label>
-                <select id="type-b-${container.id}" class="type-select">
-                    <option value="flying" selected>Flying</option>
-                    <option value="ground">Ground</option>
-                    <option value="rock">Rock</option>
-                    <option value="steel">Steel</option>
-                    <option value="fairy">Fairy</option>
-                    <option value="poison">Poison</option>
-                    <option value="fighting">Fighting</option>
-                    <option value="bug">Bug</option>
-                </select>
+            
+            <div class="venn-controls-bottom">
+                <button class="venn-btn" data-mode="intersection">Intersection (A ∩ B)</button>
+                <button class="venn-btn" data-mode="union">Union (A ∪ B)</button>
+                <button class="venn-btn" data-mode="complement-a">Complement (A')</button>
+                <button class="venn-btn" data-mode="complement-b">Complement (B')</button>
             </div>
         </div>
 
-        <div class="venn-container">
-            <svg viewBox="0 0 400 250" class="venn-svg">
-                <!-- Defs for patterns/filters if needed -->
-                
-                <!-- Set A Circle -->
-                <circle id="circle-a" cx="140" cy="125" r="90" 
-                    fill="#FF8080" fill-opacity="0.3" stroke="#DC0A2D" stroke-width="2" class="venn-circle"/>
-                
-                <!-- Set B Circle -->
-                <circle id="circle-b" cx="260" cy="125" r="90" 
-                    fill="#80B0FF" fill-opacity="0.3" stroke="#28AAFD" stroke-width="2" class="venn-circle"/>
-
-                <!-- Labels -->
-                <text id="label-a" x="90" y="125" text-anchor="middle" class="venn-label" fill="#a00000">Fire</text>
-                <text id="label-b" x="310" y="125" text-anchor="middle" class="venn-label" fill="#0050a0">Flying</text>
-                <text x="200" y="125" text-anchor="middle" class="venn-label" fill="#555" font-size="12">Both</text>
-            </svg>
-        </div>
-
-        <div class="outcome-buttons">
-            <button class="outcome-btn" data-mode="a">Set A Only</button>
-            <button class="outcome-btn" data-mode="b">Set B Only</button>
-            <button class="outcome-btn active" data-mode="intersection">Intersection (A ∩ B)</button>
-            <button class="outcome-btn" data-mode="union">Union (A ∪ B)</button>
-            <button class="outcome-btn" data-mode="complement-a">Complement (A')</button>
-        </div>
-
-        <div class="venn-description">
-            <h4 id="desc-title" style="margin:0 0 0.5rem 0;">Intersection (Fire AND Flying)</h4>
-            <p id="desc-text" style="font-size:0.9rem; color:#444; margin-bottom:0.5rem;">
-                Pokemon that share BOTH types. Highlighting the overlapping region.
-            </p>
-            <div id="example-sprites" class="sprite-list">
-                <span style="color:#888; font-size:0.8rem;">Loading data...</span>
+        <div class="venn-grid">
+            <div>
+                <div class="venn-header-row">
+                    <span>A Only</span>
+                </div>
+                <div class="venn-region venn-region-a" id="region-a-${container.id}"></div>
             </div>
+            
+            <div>
+                <div class="venn-header-row">
+                    <span style="font-size: 1rem;">Intersection</span>
+                </div>
+                <div class="venn-region venn-region-intersection" id="region-intersection-${container.id}"></div>
+            </div>
+
+            <div>
+                <div class="venn-header-row">
+                    <span>B Only</span>
+                </div>
+                <div class="venn-region venn-region-b" id="region-b-${container.id}"></div>
+            </div>
+        </div>
+
+        <div style="margin-top: 1rem;">
+             <div class="venn-header-row">
+                <span style="font-size: 1rem; color: #666;">Outside (Neither A nor B)</span>
+            </div>
+            <div class="venn-region-outside" id="region-outside-${container.id}"></div>
+        </div>
+
+        <div class="venn-description" style="margin-top: 2rem; text-align: center;">
+            <h4 id="desc-title-${container.id}" style="color: var(--pokeball-red); margin-bottom: 0.5rem;">Intersection</h4>
+            <p id="desc-text-${container.id}" style="color: var(--text-secondary);">Pokemon that are BOTH Grass AND Poison.</p>
         </div>
     `;
     container.appendChild(wrapper);
@@ -317,166 +412,118 @@ async function renderVennDiagram(container) {
     // Elements
     const selectA = wrapper.querySelector(`#type-a-${container.id}`);
     const selectB = wrapper.querySelector(`#type-b-${container.id}`);
-    const circleA = wrapper.querySelector('#circle-a');
-    const circleB = wrapper.querySelector('#circle-b');
-    const labelA = wrapper.querySelector('#label-a');
-    const labelB = wrapper.querySelector('#label-b');
-    const btns = wrapper.querySelectorAll('.outcome-btn');
-    const descTitle = wrapper.querySelector('#desc-title');
-    const descText = wrapper.querySelector('#desc-text');
-    const spriteList = wrapper.querySelector('#example-sprites');
+    const regionA = wrapper.querySelector(`#region-a-${container.id}`);
+    const regionB = wrapper.querySelector(`#region-b-${container.id}`);
+    const regionInt = wrapper.querySelector(`#region-intersection-${container.id}`);
+    const regionOut = wrapper.querySelector(`#region-outside-${container.id}`);
+    const btns = wrapper.querySelectorAll('.venn-btn');
+    const descTitle = wrapper.querySelector(`#desc-title-${container.id}`);
+    const descText = wrapper.querySelector(`#desc-text-${container.id}`);
 
     // State
     const state = {
-        typeA: 'fire',
-        typeB: 'flying',
-        mode: 'intersection',
-        dataA: [],
-        dataB: []
+        typeA: 'grass',
+        typeB: 'poison',
+        mode: 'intersection'
     };
 
-    // Cache
-    const typeCache = {};
+    // Helper: Create Sprite Element using direct CDN for speed
+    const createSpriteBox = (pokemon) => {
+        const box = document.createElement('div');
+        box.className = 'mini-sprite-box';
+        // Use CDN for instant loading
+        const spriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`;
 
-    // Helper: Fetch Data
-    const loadTypeData = async (type) => {
-        if (typeCache[type]) return typeCache[type];
-
-        spriteList.innerHTML = '<span style="color:#888; font-size:0.8rem;">Fetching PokeAPI data...</span>';
-        try {
-            const data = await PokeAPI.getType(type);
-            // Extract pokemon names
-            const names = data.pokemon.map(p => p.pokemon.name);
-            typeCache[type] = names;
-            return names;
-        } catch (e) {
-            console.error(e);
-            return [];
-        }
+        box.innerHTML = `
+            <img src="${spriteUrl}" alt="${pokemon.name}">
+            <span>${pokemon.name}</span>
+        `;
+        return box;
     };
 
-    // Helper: Update Visualization
     const updateViz = () => {
-        // Reset Opacities
-        circleA.setAttribute('fill-opacity', '0.1');
-        circleB.setAttribute('fill-opacity', '0.1');
+        // Clear all regions
+        regionA.innerHTML = '';
+        regionB.innerHTML = '';
+        regionInt.innerHTML = '';
+        regionOut.innerHTML = '';
 
-        // Mode Logic
-        let title = "";
-        let text = "";
-        let resultPokemon = [];
+        // Reset highlights
+        [regionA, regionB, regionInt, regionOut].forEach(el => el.classList.remove('active'));
 
-        // Determine Sets
-        const setA = new Set(state.dataA);
-        const setB = new Set(state.dataB);
+        // Filter Data from Mini-Dex
+        // We iterate through distinct pokemon in our mini-dex to see where they fall
+        // To prevent duplicates if a pokemon is in multiple lists (not issue with hardcoded array but good practice)
+        const uniqueDex = new Map();
+        MINI_DEX.forEach(p => uniqueDex.set(p.id, p));
 
+        const pokemonList = Array.from(uniqueDex.values());
+
+        // Distribute Pokemon
+        pokemonList.forEach(p => {
+            const isA = p.types.includes(state.typeA);
+            const isB = p.types.includes(state.typeB);
+
+            let targetRegion = null;
+
+            if (isA && isB) {
+                targetRegion = regionInt;
+            } else if (isA && !isB) {
+                targetRegion = regionA;
+            } else if (!isA && isB) {
+                targetRegion = regionB;
+            } else {
+                targetRegion = regionOut;
+            }
+
+            // Optimization: Only append if we haven't overfilled the box (e.g., max 6 per box)
+            if (targetRegion && targetRegion.children.length < 6) {
+                targetRegion.appendChild(createSpriteBox(p));
+            }
+        });
+
+        // Highlight Logic & Text
         switch (state.mode) {
             case 'intersection':
-                // Highlight Intersection
-                // SVG doesn't strictly support "only intersection" fill without clip-paths, 
-                // but we can simulate visual focus by making both darker where they overlap?
-                // Actually, best way is to keep both lightly filled and maybe stroke the intersection?
-                // Or just fill both moderately?
-                circleA.setAttribute('fill-opacity', '0.4');
-                circleB.setAttribute('fill-opacity', '0.4');
-
-                title = `Intersection (A ∩ B)`;
-                text = `Pokemon that are BOTH <b>${state.typeA}</b> AND <b>${state.typeB}</b>.`;
-                resultPokemon = state.dataA.filter(x => setB.has(x));
+                regionInt.classList.add('active');
+                descTitle.textContent = `Intersection (A ∩ B)`;
+                descText.innerHTML = `Pokemon that are BOTH <b>${state.typeA}</b> AND <b>${state.typeB}</b>.`;
                 break;
-
             case 'union':
-                circleA.setAttribute('fill-opacity', '0.6');
-                circleB.setAttribute('fill-opacity', '0.6');
-                title = `Union (A ∪ B)`;
-                text = `Pokemon that are EITHER <b>${state.typeA}</b> OR <b>${state.typeB}</b> (or both).`;
-                // Union
-                resultPokemon = [...new Set([...state.dataA, ...state.dataB])];
+                regionA.classList.add('active');
+                regionB.classList.add('active');
+                regionInt.classList.add('active');
+                descTitle.textContent = `Union (A ∪ B)`;
+                descText.innerHTML = `Pokemon that are <b>${state.typeA}</b> OR <b>${state.typeB}</b> (or both).`;
                 break;
-
-            case 'a':
-                circleA.setAttribute('fill-opacity', '0.7');
-                title = `Set A Only (Difference)`;
-                text = `Pokemon that are <b>${state.typeA}</b> but NOT <b>${state.typeB}</b>.`;
-                resultPokemon = state.dataA.filter(x => !setB.has(x));
-                break;
-
-            case 'b':
-                circleB.setAttribute('fill-opacity', '0.7');
-                title = `Set B Only (Difference)`;
-                text = `Pokemon that are <b>${state.typeB}</b> but NOT <b>${state.typeA}</b>.`;
-                resultPokemon = state.dataB.filter(x => !setA.has(x));
-                break;
-
             case 'complement-a':
-                // This is hard to visualize with just two circles, usually implies the "Universal Set" box
-                circleA.setAttribute('fill-opacity', '0.05'); // Ghosted
-                circleB.setAttribute('fill-opacity', '0.7'); // Part of complement (if in B)
-                title = `Complement of A (A')`;
-                text = `Everything in the universe that is NOT <b>${state.typeA}</b>. (Showing examples from Set B that aren't A).`;
-                resultPokemon = state.dataB.filter(x => !setA.has(x)); // Just showing subset for relevance
+                regionB.classList.add('active');
+                regionOut.classList.add('active');
+                descTitle.textContent = `Complement of A (A')`;
+                descText.innerHTML = `Pokemon that are NOT <b>${state.typeA}</b>.`;
                 break;
-        }
-
-        descTitle.innerHTML = title;
-        descText.innerHTML = text;
-
-        // Render Sprites (limit to 10 random)
-        spriteList.innerHTML = '';
-        if (resultPokemon.length === 0) {
-            spriteList.innerHTML = '<span style="color:#666;">No Pokemon found matching this criteria!</span>';
-        } else {
-            // Shuffle
-            const shuffled = resultPokemon.sort(() => 0.5 - Math.random()).slice(0, 12);
-            for (const name of shuffled) {
-                const img = document.createElement('img');
-                img.className = 'mini-sprite';
-                img.title = name;
-                // Initially show a loading/placeholder
-                img.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png';
-                spriteList.appendChild(img);
-
-                // Fetch real sprite asynchronously
-                PokeAPI.getPokemon(name).then(pokemon => {
-                    if (pokemon) {
-                        const spriteUrl = PokeAPI.getSprite(pokemon);
-                        if (spriteUrl) img.src = spriteUrl;
-                    }
-                }).catch(err => console.warn(`Failed to fetch sprite for ${name}`, err));
-            }
-            const countSpan = document.createElement('span');
-            countSpan.style.alignSelf = 'center';
-            countSpan.style.fontSize = '0.8rem';
-            countSpan.style.color = '#888';
-            countSpan.textContent = `(+${resultPokemon.length - shuffled.length} more)`;
-            if (resultPokemon.length > 12) spriteList.appendChild(countSpan);
+            case 'complement-b':
+                regionA.classList.add('active');
+                regionOut.classList.add('active');
+                descTitle.textContent = `Complement of B (B')`;
+                descText.innerHTML = `Pokemon that are NOT <b>${state.typeB}</b>.`;
+                break;
         }
     };
 
-    // Main Update Handler
-    const handleUpdate = async () => {
-        const typeA = selectA.value;
-        const typeB = selectB.value;
-
-        // Update Labels
-        labelA.textContent = typeA;
-        labelB.textContent = typeB;
-        state.typeA = typeA;
-        state.typeB = typeB;
-
-        // Load Data
-        state.dataA = await loadTypeData(typeA);
-        state.dataB = await loadTypeData(typeB);
-
+    const handleUpdate = () => {
+        state.typeA = selectA.value;
+        state.typeB = selectB.value;
         updateViz();
     };
 
-    // Event Listeners
+    // Listeners
     selectA.addEventListener('change', handleUpdate);
     selectB.addEventListener('change', handleUpdate);
 
     btns.forEach(btn => {
         btn.addEventListener('click', () => {
+            // Updated active state
             btns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             state.mode = btn.dataset.mode;
@@ -484,8 +531,9 @@ async function renderVennDiagram(container) {
         });
     });
 
-    // Initial Load
-    await handleUpdate();
+    // Init with Intersection active
+    btns[0].classList.add('active');
+    updateViz();
 }
 
 // Starter Choice
