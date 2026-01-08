@@ -335,17 +335,18 @@ export const lessons = [
     {
         id: 4,
         title: "Mutually Exclusive Events",
-        spriteId: 1, // Bulbasaur (one of three starters - mutually exclusive choice)
+        spriteId: 133, // Eevee (The perfect example of mutually exclusive evolution)
         content: `
             <h3>What Are They?</h3>
             <p>Two events that cannot happen at the same time.</p>
             <div class="example-box">
-                <p><strong>Starter Selection:</strong> You can choose Bulbasaur OR Charmander, but not both!</p>
+                <p><strong>Eevee Evolution:</strong> Eevee can evolve into Vaporeon, Jolteon, OR Flareon. Once it evolves into one, it <strong>cannot</strong> become the others!</p>
             </div>
             <h3>Addition Rule</h3>
             <p>For mutually exclusive events: <strong>P(A or B) = P(A) + P(B)</strong></p>
+            <p>Since they can't happen together, we just add their probabilities.</p>
         `,
-        interactive: 'starter-choice',
+        interactive: 'eevee-evolution',
         quizzes: [
             {
                 variant: 1,
@@ -359,16 +360,16 @@ export const lessons = [
                             "They have equal probability"
                         ],
                         correctIndex: 1,
-                        explanation: "Mutually exclusive events cannot occur simultaneously."
+                        explanation: "Mutually exclusive events cannot occur simultaneously. Eevee cannot be both Vaporeon and Jolteon."
                     },
                     {
-                        question: "If P(A) = 0.3 and P(B) = 0.4 and they're mutually exclusive, what is P(A or B)?",
+                        question: "If P(Vaporeon) = 0.3 and P(Jolteon) = 0.4, what is P(Vaporeon or Jolteon)?",
                         choices: ["0.12", "0.7", "0.1", "1"],
                         correctIndex: 1,
                         explanation: "For mutually exclusive events: P(A or B) = P(A) + P(B) = 0.3 + 0.4 = 0.7"
                     },
                     {
-                        question: "Which is mutually exclusive?",
+                        question: "Which of these is mutually exclusive?",
                         choices: [
                             "Getting heads and tails on one coin flip",
                             "Catching Fire-type and Water-type Pokemon in general",
@@ -390,10 +391,10 @@ export const lessons = [
                         explanation: "Mutually exclusive events can't both happen, so P(A and B) = 0."
                     },
                     {
-                        question: "You roll a die. Are 'rolling a 3' and 'rolling an even number' mutually exclusive?",
-                        choices: ["Yes", "No", "Only on six-sided dice", "Depends on the roll"],
-                        correctIndex: 0,
-                        explanation: "Yes! 3 is odd, so you can't roll a 3 and an even number on the same roll."
+                        question: "Can Eevee evolve into Vaporeon AND Flareon at the same time?",
+                        choices: ["Yes", "No", "Only with a glitch", "Depends on the level"],
+                        correctIndex: 1,
+                        explanation: "No! Evolution is a mutually exclusive path. Choosing one locks out the others."
                     },
                     {
                         question: "If three events are mutually exclusive with P = 0.2, 0.3, 0.4, what's P(any one occurs)?",
@@ -415,18 +416,18 @@ export const lessons = [
                             "Yes, if they're complementary"
                         ],
                         correctIndex: 1,
-                        explanation: "Mutually exclusive events (except impossible ones) can't be independent because one happening makes the other impossible."
+                        explanation: "Mutually exclusive events (with P>0) are deeply dependent: if one happens, the other becomes impossible (Probability drops to 0)."
                     },
                     {
-                        question: "Which Kanto starter choice represents mutually exclusive events?",
+                        question: "Which choice represents mutually exclusive events?",
                         choices: [
-                            "Choosing Bulbasaur or Squirtle",
-                            "Choosing a Grass-type in general",
+                            "Using a Water Stone vs Fire Stone on one Eevee",
+                            "Choosing a Grass-type to catch",
                             "Catching both eventually",
                             "Trading for another"
                         ],
                         correctIndex: 0,
-                        explanation: "The initial starter choice is mutually exclusive - you can only pick one."
+                        explanation: "You can only use one stone on that specific Eevee."
                     },
                     {
                         question: "If A and B are mutually exclusive and P(A) = 0.7, what's the maximum value of P(B)?",

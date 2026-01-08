@@ -10,6 +10,19 @@ const tocList = document.getElementById('toc-list');
 function init() {
     renderAllLessons();
     setupIntersectionObserver();
+    setupGlobalSounds();
+}
+
+/**
+ * Setup global sound effects for interactions
+ */
+function setupGlobalSounds() {
+    document.addEventListener('click', (e) => {
+        const button = e.target.closest('button');
+        if (button && !button.classList.contains('answer-button')) {
+            sounds.playClick();
+        }
+    });
 }
 
 // Render ALL lessons as a long scrolling article
@@ -69,8 +82,8 @@ export async function setupInteractive(type, containerIdOrElement) {
         renderCardDraw(container);
     } else if (type === 'venn-diagram') {
         renderVennDiagram(container);
-    } else if (type === 'starter-choice') {
-        renderStarterChoice(container);
+    } else if (type === 'eevee-evolution') {
+        renderEeveeEvolution(container);
     } else if (type === 'addition-calc') {
         renderAdditionCalc(container);
     } else if (type === 'conditional-calc') {
@@ -537,29 +550,91 @@ async function renderVennDiagram(container) {
 }
 
 // Starter Choice
-function renderStarterChoice(container) {
+// Eevee Evolution (Mutually Exclusive)
+function renderEeveeEvolution(container) {
     const wrapper = document.createElement('div');
-    wrapper.className = 'simulation-box';
+    wrapper.className = 'eevee-container';
+
+    // Initial HTML Structure
     wrapper.innerHTML = `
-        <h3>Choose Your Starter!</h3>
-        <p>These events are mutually exclusive - you can only pick one!</p>
-        <div style="display: flex; gap: 1rem; justify-content: center; margin: 1rem 0;">
-            <button class="action-btn starter-btn" data-starter="Bulbasaur">🌱 Bulbasaur</button>
-            <button class="action-btn starter-btn" data-starter="Charmander">🔥 Charmander</button>
-            <button class="action-btn starter-btn" data-starter="Squirtle">💧 Squirtle</button>
+        <h3 style="margin:0; color: #555;">Choose an Evolution Stone</h3>
+        
+        <div class="evolution-stage">
+            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/133.png" 
+                 class="main-sprite" id="eevee-sprite-${container.id}" alt="Eevee">
         </div>
-        <p id="starter-result" style="font-weight: 500;">Make your choice!</p>
+
+        <div class="evolution-stones">
+            <button class="stone-btn stone-water" data-stone="water">
+                <div class="stone-icon"></div>
+                <span class="stone-label">Water</span>
+            </button>
+            <button class="stone-btn stone-thunder" data-stone="thunder">
+                <div class="stone-icon"></div>
+                <span class="stone-label">Thunder</span>
+            </button>
+            <button class="stone-btn stone-fire" data-stone="fire">
+                <div class="stone-icon"></div>
+                <span class="stone-label">Fire</span>
+            </button>
+        </div>
+
+        <div class="evolution-msg" id="eevee-msg-${container.id}">
+            Eevee has 3 mutually exclusive paths.<br>
+            Using one stone makes the others impossible!
+        </div>
     `;
     container.appendChild(wrapper);
 
-    const buttons = wrapper.querySelectorAll('.starter-btn');
-    const result = wrapper.querySelector('#starter-result');
+    // Elements
+    const sprite = wrapper.querySelector(`#eevee-sprite-${container.id}`);
+    const msg = wrapper.querySelector(`#eevee-msg-${container.id}`);
+    const btns = wrapper.querySelectorAll('.stone-btn');
 
-    buttons.forEach(btn => {
+    // Data
+    const evolutions = {
+        water: { id: 134, name: 'Vaporeon', color: '#6390F0' },
+        thunder: { id: 135, name: 'Jolteon', color: '#F7D02C' },
+        fire: { id: 136, name: 'Flareon', color: '#EE8130' }
+    };
+
+    // Handler
+    btns.forEach(btn => {
         btn.addEventListener('click', () => {
-            const starter = btn.dataset.starter;
-            result.textContent = `You chose ${starter}! P(${starter}) = 1/3`;
-            result.style.color = '#DC0A2D';
+            const stone = btn.dataset.stone;
+            const evo = evolutions[stone];
+
+            // 1. Disable ALL buttons (Mutually Exclusive!)
+            btns.forEach(b => {
+                b.disabled = true;
+                if (b !== btn) {
+                    b.style.opacity = '0.3';
+                    b.style.transform = 'scale(0.9)';
+                }
+            });
+
+            // 2. Animate & Change Sprite
+            sprite.classList.add('evolving');
+
+            // Wait for flash mid-point to swap image
+            setTimeout(() => {
+                sprite.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${evo.id}.png`;
+                // Update Message
+                msg.innerHTML = `
+                    <strong style="color:${evo.color}">${evo.name}</strong> chosen!<br>
+                    <span style="font-size:0.85rem; color:#666;">
+                        P(${evo.name}) = 1.0 <br>
+                        P(Others) = 0.0 (Impossible now)
+                    </span>
+                `;
+                msg.style.borderColor = evo.color;
+                msg.style.background = '#fff';
+            }, 500);
+
+            // Remove animation class after done
+            setTimeout(() => {
+                sprite.classList.remove('evolving');
+            }, 1000);
         });
     });
 }

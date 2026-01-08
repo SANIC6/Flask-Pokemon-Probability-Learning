@@ -15,6 +15,21 @@ async function init() {
     updateProgressStats();
     await renderLessonCards();
     setupAnimations();
+    setupGlobalSounds();
+}
+
+/**
+ * Setup global sound effects for interactions
+ */
+function setupGlobalSounds() {
+    document.addEventListener('click', (e) => {
+        const button = e.target.closest('button');
+        const card = e.target.closest('.lesson-card');
+
+        if (button || card) {
+            sounds.playClick();
+        }
+    });
 }
 
 /**
@@ -113,13 +128,11 @@ function createLessonCard(lesson, index) {
 
     // Add click handler
     card.addEventListener('click', () => {
-        sounds.playClick();
         navigateToLesson(lesson.id);
     });
 
-    // Add hover effect
+    // Add hover effect (no sound)
     card.addEventListener('mouseenter', () => {
-        sounds.playHover();
         card.style.transform = 'translateY(-8px)';
     });
 

@@ -1240,3 +1240,158 @@ img {
     color: white;
     border-color: var(--text-primary);
 }
+
+/* ==========================================================================
+   Eevee Evolution Interactive
+   ========================================================================== */
+
+.eevee-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-lg);
+    background: white;
+    border-radius: 12px;
+    border: 2px solid var(--border-color);
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.evolution-stage {
+    position: relative;
+    height: 180px;
+    width: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.main-sprite {
+    width: 160px;
+    height: 160px;
+    object-fit: contain;
+    transition: all 0.5s ease;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+}
+
+.evolution-stones {
+    display: flex;
+    gap: var(--spacing-md);
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.stone-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 12px;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    background: #f8f9fa;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100px;
+}
+
+.stone-btn:hover:not(:disabled) {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Specific Stone Styles */
+.stone-water {
+    border-color: #6390F0;
+}
+
+.stone-water:hover:not(:disabled) {
+    background: #E0F0FF;
+}
+
+.stone-thunder {
+    border-color: #F7D02C;
+}
+
+.stone-thunder:hover:not(:disabled) {
+    background: #FFF9E0;
+}
+
+.stone-fire {
+    border-color: #EE8130;
+}
+
+.stone-fire:hover:not(:disabled) {
+    background: #FFE0E0;
+}
+
+.stone-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    /* Fallback colors if images fail */
+}
+
+.stone-water .stone-icon {
+    background: #6390F0;
+    box-shadow: 0 0 10px #6390F0;
+}
+
+.stone-thunder .stone-icon {
+    background: #F7D02C;
+    box-shadow: 0 0 10px #F7D02C;
+}
+
+.stone-fire .stone-icon {
+    background: #EE8130;
+    box-shadow: 0 0 10px #EE8130;
+}
+
+.stone-label {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.stone-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    filter: grayscale(0.8);
+    transform: none;
+}
+
+.evolution-msg {
+    min-height: 60px;
+    text-align: center;
+    padding: var(--spacing-md);
+    border-radius: 8px;
+    background: var(--bg-secondary);
+    width: 100%;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    border-left: 4px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+/* Animations */
+@keyframes evolveFlash {
+    0% {
+        filter: brightness(1);
+        transform: scale(1);
+    }
+
+    50% {
+        filter: brightness(10);
+        transform: scale(1.2);
+    }
+
+    100% {
+        filter: brightness(1);
+        transform: scale(1);
+    }
+}
+
+.evolving {
+    animation: evolveFlash 1s ease-in-out;
+}

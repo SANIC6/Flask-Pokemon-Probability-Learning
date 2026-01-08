@@ -30,6 +30,19 @@ async function init() {
     renderLessonContent();
     await loadInteractiveWidget();
     setupQuizSection();
+    setupGlobalSounds();
+}
+
+/**
+ * Setup global sound effects for interactions
+ */
+function setupGlobalSounds() {
+    document.addEventListener('click', (e) => {
+        const button = e.target.closest('button');
+        if (button && !button.classList.contains('answer-button')) {
+            sounds.playClick();
+        }
+    });
 }
 
 /**
@@ -203,7 +216,6 @@ function renderQuestion() {
     const answerButtons = quizContent.querySelectorAll('.answer-button');
     answerButtons.forEach(button => {
         button.addEventListener('click', () => handleAnswer(parseInt(button.dataset.index)));
-        button.addEventListener('mouseenter', () => sounds.playHover());
     });
 
     // Update progress dots
@@ -236,7 +248,7 @@ function showFeedback(isCorrect, question, selectedIndex) {
     const buttons = document.querySelectorAll('.answer-button');
 
     if (isCorrect) {
-        sounds.playConfirm();
+        sounds.playQuizCorrect();
         // Highlight correct answer in green
         buttons[selectedIndex].classList.add('correct');
         buttons[selectedIndex].innerHTML += '<span class="feedback-icon">✓</span>';
@@ -248,7 +260,7 @@ function showFeedback(isCorrect, question, selectedIndex) {
         StateManager.recordQuizVariant(lessonId, selectedQuizVariant);
 
     } else {
-        sounds.playDenied();
+        sounds.playQuizWrong();
         wrongAnswersCount++;
 
         // Highlight incorrect answer in red
@@ -336,12 +348,14 @@ async function completeLesson() {
         completionTitle.textContent = "Lesson Complete!";
         completionTitle.style.color = "var(--grass-green)";
         completionMsg.innerHTML = `Great job! You got <strong>${quizQuestions.length - wrongAnswersCount}</strong> out of <strong>${quizQuestions.length}</strong> correct. You've mastered <strong>${lesson.title}</strong>!`;
+        sounds.playQuizWin();
         await loadCompletionSprite();
         celebrateCompletion();
     } else {
         completionTitle.textContent = "Keep Practicing!";
         completionTitle.style.color = "var(--pokeball-red)";
         completionMsg.innerHTML = `You got <strong>${quizQuestions.length - wrongAnswersCount}</strong> out of <strong>${quizQuestions.length}</strong> correct. You should practice this topic more before moving on.`;
+        sounds.playQuizFail();
         await loadCompletionSprite();
     }
 

@@ -4,10 +4,11 @@
  */
 
 const SOUND_PATHS = {
-    HOVER: '/static/sounds/001_Hover_01.wav',
-    CONFIRM: '/static/sounds/013_Confirm_03.wav',
-    DENIED: '/static/sounds/033_Denied_03.wav',
-    USE_ITEM: '/static/sounds/051_use_item_01.wav'
+    CLICK: 'https://www.myinstants.com/media/sounds/tmpq91k5v_6.mp3',
+    QUIZ_CORRECT: 'https://www.myinstants.com/media/sounds/129-received-an-item.mp3',
+    QUIZ_WRONG: 'https://www.myinstants.com/media/sounds/bumpintowall_X5CNQPB.mp3',
+    QUIZ_FAIL: 'https://www.myinstants.com/media/sounds/low-hp-pokemon.mp3',
+    QUIZ_WIN: 'https://www.myinstants.com/media/sounds/06-caught-a-pokemon.mp3'
 };
 
 class SoundManager {
@@ -29,7 +30,7 @@ class SoundManager {
 
     /**
      * Play a sound by key
-     * @param {string} key - The sound key (HOVER, CONFIRM, etc)
+     * @param {string} key - The sound key (CLICK, QUIZ_CORRECT, etc)
      */
     play(key) {
         if (!this.enabled) return;
@@ -44,8 +45,6 @@ class SoundManager {
         const audio = new Audio(path);
         audio.volume = 0.5; // Set a default reasonable volume
         audio.play().catch(err => {
-            // Browsers often block auto-playing audio until the user interacts
-            // We just catch it silently to avoid console spam
             console.debug('Audio play failed (waiting for interaction):', err);
         });
     }
@@ -53,10 +52,11 @@ class SoundManager {
     /**
      * Specialized play methods
      */
-    playHover() { this.play('HOVER'); }
-    playConfirm() { this.play('CONFIRM'); }
-    playDenied() { this.play('DENIED'); }
-    playClick() { this.play('USE_ITEM'); }
+    playClick() { this.play('CLICK'); }
+    playQuizCorrect() { this.play('QUIZ_CORRECT'); }
+    playQuizWrong() { this.play('QUIZ_WRONG'); }
+    playQuizFail() { this.play('QUIZ_FAIL'); }
+    playQuizWin() { this.play('QUIZ_WIN'); }
 
     toggle(state) {
         this.enabled = state !== undefined ? state : !this.enabled;
