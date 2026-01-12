@@ -113,7 +113,11 @@ function renderLessonContent() {
  * Load and render the interactive widget
  */
 async function loadInteractiveWidget() {
-    if (!lesson.interactive) return;
+    const widgetSection = document.getElementById('interactive-section');
+    if (!lesson.interactive) {
+        if (widgetSection) widgetSection.style.display = 'none';
+        return;
+    }
 
     const widgetDiv = document.getElementById('interactive-widget');
     if (!widgetDiv) return;
@@ -153,6 +157,7 @@ function setupQuizSection() {
     quizQuestions = quizData.questions;
 
     // Show quiz section after a delay
+    const delay = lesson.interactive ? 2000 : 500;
     setTimeout(() => {
         const quizSection = document.getElementById('quiz-section');
         if (quizSection) {
@@ -160,7 +165,7 @@ function setupQuizSection() {
             quizSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
         startQuiz();
-    }, 2000); // Give user time to interact with widget
+    }, delay); // Give user time to interact with widget or just a brief pause
 }
 
 /**

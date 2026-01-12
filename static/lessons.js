@@ -229,7 +229,6 @@ export const lessons = [
             <p>The first event changes the probability of the second.</p>
             <p><em>Example: Drawing a card and NOT putting it back. The deck is smaller now!</em></p>
         `,
-        interactive: 'card-draw',
         quizzes: [
             {
                 variant: 1,
